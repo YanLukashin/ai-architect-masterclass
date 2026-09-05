@@ -94,19 +94,19 @@
 
     const data = new FormData(form);
     const message = [
-      "Заявка на мастер-класс AI Architect · 24.09.2026",
+      "Регистрация на мастер-класс AI Architect · 24.09.2026",
       "",
       `Имя: ${clean(data.get("name"))}`,
       `Telegram: ${clean(data.get("telegram"))}`,
       `Роль: ${clean(data.get("role"))}`,
       `Компания/сфера: ${clean(data.get("company")) || "—"}`,
       "",
-      `Процесс: ${clean(data.get("process"))}`,
-      `Сейчас теряется: ${clean(data.get("loss"))}`,
-      `Влияние на внедрение: ${clean(data.get("authority"))}`,
-      `Текущее использование ИИ: ${clean(data.get("ai_usage")) || "—"}`,
-      `Живой разбор: ${yesNo(data.get("live_case"))}`,
-      `AI-диагностика: ${yesNo(data.get("diagnosis"))}`,
+      `Что хочу упростить: ${clean(data.get("process"))}`,
+      `Главная проблема: ${clean(data.get("loss"))}`,
+      `Могу повлиять на изменения: ${clean(data.get("authority"))}`,
+      `Как сейчас использую ИИ: ${clean(data.get("ai_usage")) || "—"}`,
+      `Можно предложить для разбора: ${yesNo(data.get("live_case"))}`,
+      `Хочу лично обсудить задачу после встречи: ${yesNo(data.get("diagnosis"))}`,
       "",
       `Источник: ${campaignLine(data)}`,
     ].join("\n");
