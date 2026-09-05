@@ -37,6 +37,23 @@
 
   document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
 
+  document.querySelectorAll("[data-youtube-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const videoId = button.getAttribute("data-youtube-id");
+      const title = button.getAttribute("data-video-title") || "Видео";
+      if (!videoId) return;
+
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+      iframe.title = title;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      button.replaceWith(iframe);
+    });
+  });
+
   if (mobileCta && registerSection) {
     const syncMobileCta = () => {
       const bounds = registerSection.getBoundingClientRect();
