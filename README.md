@@ -2,6 +2,8 @@
 
 Статический лендинг для GitHub Pages. Сборка не требует сторонних зависимостей.
 
+Опубликованная версия: https://yanlukashin.github.io/ai-architect-masterclass/
+
 ## Локальная проверка
 
 ```bash
