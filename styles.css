@@ -544,6 +544,13 @@ h3 {
   border: 1px solid var(--line-light);
 }
 
+.decision-note {
+  max-width: 700px;
+  margin: 18px 0 32px;
+  color: var(--muted-light);
+  font-size: 17px;
+}
+
 .decision-track div {
   position: relative;
   min-height: 190px;
