@@ -10,7 +10,8 @@ const checks = [
   ["index.html", "24 сентября"],
   ["index.html", "16:00–18:00 МСК"],
   ["index.html", 'id="application-form"'],
-  ["script.js", 'TELEGRAM_USERNAME = "yan_lukashin"'],
+  ["script.js", "GOOGLE_FORM_ACTION"],
+  ["script.js", 'name: "entry.896684943"'],
   ["script.js", '"utm_source"'],
 ];
 

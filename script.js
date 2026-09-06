@@ -1,5 +1,22 @@
 (() => {
-  const TELEGRAM_USERNAME = "yan_lukashin";
+  const GOOGLE_FORM_ACTION =
+    "https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/formResponse";
+  const googleEntries = {
+    name: "entry.896684943",
+    email: "entry.172638223",
+    telegram: "entry.520978181",
+    role: "entry.620721003",
+    company: "entry.1432134673",
+    process: "entry.178847577",
+    loss: "entry.1178609925",
+    authority: "entry.240061595",
+    aiUsage: "entry.1284261910",
+    liveCasePrimary: "entry.369213165",
+    liveCaseDuplicate: "entry.334142621",
+    diagnosis: "entry.1006025006",
+    source: "entry.515268763",
+    consent: "entry.626524812",
+  };
   const campaignKeys = [
     "utm_source",
     "utm_medium",
@@ -13,6 +30,7 @@
   const topbar = document.querySelector("[data-topbar]");
   const form = document.querySelector("#application-form");
   const status = document.querySelector("#form-status");
+  const submitButton = form?.querySelector("[type='submit']");
   const mobileCta = document.querySelector(".mobile-cta");
   const registerSection = document.querySelector("#register");
 
@@ -78,7 +96,7 @@
   });
 
   const clean = (value) => String(value || "").trim();
-  const yesNo = (value) => (value ? "да" : "нет");
+  const yesNo = (value) => (value ? "Да" : "Нет");
 
   const campaignLine = (data) => {
     const values = campaignKeys
@@ -110,30 +128,65 @@
     }
 
     const data = new FormData(form);
-    const message = [
-      "Регистрация на мастер-класс AI Architect · 24.09.2026",
-      "",
-      `Имя: ${clean(data.get("name"))}`,
-      `Telegram: ${clean(data.get("telegram"))}`,
-      `Роль: ${clean(data.get("role"))}`,
-      `Компания/сфера: ${clean(data.get("company")) || "—"}`,
-      "",
-      `Что хочу упростить: ${clean(data.get("process"))}`,
-      `Главная проблема: ${clean(data.get("loss"))}`,
-      `Могу повлиять на изменения: ${clean(data.get("authority"))}`,
-      `Как сейчас использую ИИ: ${clean(data.get("ai_usage")) || "—"}`,
-      `Можно предложить для разбора: ${yesNo(data.get("live_case"))}`,
-      `Хочу лично обсудить задачу после встречи: ${yesNo(data.get("diagnosis"))}`,
-      "",
-      `Источник: ${campaignLine(data)}`,
-    ].join("\n");
+    const source = [clean(data.get("source_text")), campaignLine(data)].filter(Boolean).join("; ");
+    const response = {
+      [googleEntries.name]: clean(data.get("name")),
+      [googleEntries.email]: clean(data.get("email")),
+      [googleEntries.telegram]: clean(data.get("telegram")),
+      [googleEntries.role]: clean(data.get("role")),
+      [googleEntries.company]: clean(data.get("company")),
+      [googleEntries.process]: clean(data.get("process")),
+      [googleEntries.loss]: clean(data.get("loss")),
+      [googleEntries.authority]: clean(data.get("authority")),
+      [googleEntries.aiUsage]: clean(data.get("ai_usage")),
+      [googleEntries.liveCasePrimary]: yesNo(data.get("live_case")),
+      [googleEntries.liveCaseDuplicate]: yesNo(data.get("live_case")),
+      [googleEntries.diagnosis]: yesNo(data.get("diagnosis")),
+      [googleEntries.source]: source,
+      [googleEntries.consent]: "Согласен",
+      fvv: "1",
+      pageHistory: "0",
+    };
 
-    const telegramUrl = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(message)}`;
-    const popup = window.open(telegramUrl, "_blank", "noopener,noreferrer");
+    let completed = false;
+    let submissionTimeout;
+    const controller = new AbortController();
+    const completeSubmission = () => {
+      if (completed) return;
+      completed = true;
+      window.clearTimeout(submissionTimeout);
+      form.reset();
+      campaignKeys.forEach((key) => {
+        const input = form.elements.namedItem(key);
+        if (input instanceof HTMLInputElement) input.value = sessionStorage.getItem(key) || "";
+      });
+      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+      status.className = "form-status is-success";
+      status.textContent =
+        "Готово! Вы зарегистрированы. Ссылку на Zoom и напоминание пришлём на email или в Telegram.";
+    };
+    const failSubmission = () => {
+      if (completed) return;
+      completed = true;
+      window.clearTimeout(submissionTimeout);
+      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
+      status.className = "form-status is-error";
+      status.innerHTML =
+        'Не удалось подтвердить отправку. Попробуйте ещё раз или <a href="https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/viewform" target="_blank" rel="noopener noreferrer">откройте Google Form</a>.';
+    };
 
-    status.className = "form-status is-success";
-    status.innerHTML = popup
-      ? "Telegram открыт. Проверьте текст и нажмите «Отправить»."
-      : `Браузер заблокировал новое окно. <a href="${telegramUrl}" target="_blank" rel="noopener noreferrer">Открыть Telegram вручную</a>.`;
+    if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
+    status.className = "form-status";
+    status.textContent = "Отправляем регистрацию…";
+    submissionTimeout = window.setTimeout(() => controller.abort(), 12000);
+
+    fetch(GOOGLE_FORM_ACTION, {
+      method: "POST",
+      mode: "no-cors",
+      body: new URLSearchParams(response),
+      signal: controller.signal,
+    })
+      .then(completeSubmission)
+      .catch(failSubmission);
   });
 })();

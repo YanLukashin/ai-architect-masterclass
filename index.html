@@ -286,27 +286,32 @@
                 <input name="name" autocomplete="name" required />
               </label>
               <label>
-                <span>Telegram *</span>
-                <input name="telegram" autocomplete="username" placeholder="@username" required />
+                <span>Email *</span>
+                <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required />
               </label>
             </div>
 
             <div class="form-row">
               <label>
+                <span>Telegram</span>
+                <input name="telegram" autocomplete="username" placeholder="@username — если удобно" />
+              </label>
+              <label>
                 <span>Ваша роль *</span>
                 <select name="role" required>
                   <option value="">Выберите</option>
-                  <option>Собственник</option>
-                  <option>Руководитель</option>
-                  <option>Специалист</option>
-                  <option>Другая</option>
+                  <option value="собственник">Собственник</option>
+                  <option value="руководитель">Руководитель</option>
+                  <option value="специалист">Специалист</option>
+                  <option value="другое">Другое</option>
                 </select>
               </label>
-              <label>
-                <span>Компания или сфера</span>
-                <input name="company" autocomplete="organization" />
-              </label>
             </div>
+
+            <label>
+              <span>Компания или сфера</span>
+              <input name="company" autocomplete="organization" />
+            </label>
 
             <label>
               <span>Какую регулярную работу вы хотите упростить? *</span>
@@ -318,21 +323,21 @@
                 <span>Что сейчас мешает больше всего? *</span>
                 <select name="loss" required>
                   <option value="">Выберите</option>
-                  <option>Время</option>
-                  <option>Деньги</option>
-                  <option>Качество</option>
-                  <option>Скорость</option>
-                  <option>Контроль</option>
+                  <option value="время">Время</option>
+                  <option value="деньги">Деньги</option>
+                  <option value="качество">Качество</option>
+                  <option value="скорость">Скорость</option>
+                  <option value="контроль">Контроль</option>
                 </select>
               </label>
               <label>
                 <span>Можете повлиять на изменения в этой работе? *</span>
                 <select name="authority" required>
                   <option value="">Выберите</option>
-                  <option>Да, принимаю решение</option>
-                  <option>Да, могу обсудить это с командой</option>
-                  <option>Могу подготовить предложение</option>
-                  <option>Пока нет</option>
+                  <option value="Да могу">Да, принимаю решение</option>
+                  <option value="Да могу обсудить с командой">Да, могу обсудить с командой</option>
+                  <option value="Могу подготовить предложения">Могу подготовить предложение</option>
+                  <option value="Другое">Пока не могу повлиять или другое</option>
                 </select>
               </label>
             </div>
@@ -340,6 +345,11 @@
             <label>
               <span>Как вы сейчас используете ИИ?</span>
               <textarea name="ai_usage" rows="3" placeholder="Не использую / иногда спрашиваю ChatGPT / уже применяем в работе"></textarea>
+            </label>
+
+            <label>
+              <span>Откуда узнали о мастер-классе?</span>
+              <input name="source_text" placeholder="Telegram, рекомендация, поиск или другое" />
             </label>
 
             <label class="check-label">
@@ -352,7 +362,7 @@
             </label>
             <label class="check-label consent">
               <input type="checkbox" name="consent" required />
-              <span>Я добровольно отправляю эти данные Яну Лукашину в Telegram для организации участия. *</span>
+              <span>Я согласен на обработку указанных данных для организации участия в мастер-классе. *</span>
             </label>
 
             <input type="hidden" name="utm_source" />
@@ -363,8 +373,8 @@
             <input type="hidden" name="yclid" />
             <input type="hidden" name="gclid" />
 
-            <button class="button form-submit" type="submit">Перейти в Telegram и записаться</button>
-            <p class="form-note">После нажатия откроется Telegram с готовым сообщением для <a href="https://t.me/yan_lukashin" target="_blank" rel="noopener noreferrer">@yan_lukashin</a>. Проверьте текст и нажмите «Отправить». До этого момента ваши ответы никуда не отправляются.</p>
+            <button class="button form-submit" type="submit">Зарегистрироваться</button>
+            <p class="form-note">Ответы сохранятся в <a href="https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/viewform" target="_blank" rel="noopener noreferrer">Google Form</a>. Ссылку на Zoom и напоминание пришлём на email или в Telegram, если вы его указали.</p>
             <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
           </form>
         </div>
@@ -377,7 +387,7 @@
             <details class="reveal"><summary>Нужно ли уметь программировать?</summary><p>Нет. Будем говорить о вашей работе простым языком: что хочется упростить, какая информация есть и как проверить результат.</p></details>
             <details class="reveal"><summary>Можно прийти без готовой идеи?</summary><p>Да. Достаточно вспомнить работу, которая часто повторяется и отнимает время. Например: разбор заявок, подготовка отчёта или проверка документов.</p></details>
             <details class="reveal"><summary>На встрече сделают готового ИИ-помощника?</summary><p>Нет. За два часа мы поймём, нужен ли он вообще, и определим самый простой способ проверить идею.</p></details>
-            <details class="reveal"><summary>Как попасть в Zoom?</summary><p>После подтверждения заявки мы пришлём ссылку и напоминание в Telegram.</p></details>
+            <details class="reveal"><summary>Как попасть в Zoom?</summary><p>После регистрации мы пришлём ссылку и напоминание на email или в Telegram, если вы его указали.</p></details>
           </div>
         </div>
       </section>
