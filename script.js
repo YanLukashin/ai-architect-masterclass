@@ -1,4 +1,13 @@
 (() => {
+  const METRIKA_COUNTER_ID = 112342018;
+  const trackGoal = (name) => {
+    try {
+      if (typeof window.ym === "function") window.ym(METRIKA_COUNTER_ID, "reachGoal", name);
+    } catch {
+      // Analytics must not interrupt registration or navigation.
+    }
+  };
+
   const GOOGLE_FORM_ACTION =
     "https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/formResponse";
   const googleEntries = {
@@ -106,10 +115,25 @@
     return values.length ? values.join("; ") : "direct";
   };
 
+  let formStarted = false;
+  const trackFormStart = () => {
+    if (formStarted) return;
+    formStarted = true;
+    trackGoal("form_start");
+  };
+
+  form?.addEventListener("change", trackFormStart);
   form?.addEventListener("input", (event) => {
+    trackFormStart();
     if (event.target instanceof HTMLElement) event.target.removeAttribute("aria-invalid");
     status.className = "form-status";
     status.textContent = "";
+  });
+
+  status?.addEventListener("click", (event) => {
+    if (event.target instanceof HTMLElement && event.target.closest("a.channel-cta")) {
+      trackGoal("telegram_click");
+    }
   });
 
   form?.addEventListener("submit", (event) => {
@@ -127,6 +151,7 @@
       return;
     }
 
+    trackFormStart();
     const data = new FormData(form);
     const source = [clean(data.get("source_text")), campaignLine(data)].filter(Boolean).join("; ");
     const response = {
@@ -164,6 +189,7 @@
       status.className = "form-status is-success";
       status.innerHTML =
         '<strong>Готово! Вы зарегистрированы.</strong><p>Следующий шаг — вступите в Telegram-канал мастер-класса. Там будут напоминания, а ближе к эфиру — ссылка на Zoom.</p><a class="button channel-cta" href="https://t.me/+xR-I608Nv7EwODQy" target="_blank" rel="noopener noreferrer">Вступить в канал мастер-класса</a>';
+      trackGoal("registration_sent");
       status.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     const failSubmission = () => {
