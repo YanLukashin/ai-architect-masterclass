@@ -162,8 +162,9 @@
       });
       if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
       status.className = "form-status is-success";
-      status.textContent =
-        "Готово! Вы зарегистрированы. Ссылку на Zoom и напоминание пришлём на email или в Telegram.";
+      status.innerHTML =
+        '<strong>Готово! Вы зарегистрированы.</strong><p>Следующий шаг — вступите в Telegram-канал мастер-класса. Там будут напоминания, а ближе к эфиру — ссылка на Zoom.</p><a class="button channel-cta" href="https://t.me/+xR-I608Nv7EwODQy" target="_blank" rel="noopener noreferrer">Вступить в канал мастер-класса</a>';
+      status.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     const failSubmission = () => {
       if (completed) return;
