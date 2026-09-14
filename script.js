@@ -188,7 +188,7 @@
       if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
       status.className = "form-status is-success";
       status.innerHTML =
-        '<strong>Готово! Вы зарегистрированы.</strong><p>Следующий шаг — вступите в Telegram-канал мастер-класса. Там будут напоминания, а ближе к эфиру — ссылка на Zoom.</p><a class="button channel-cta" href="https://t.me/+xR-I608Nv7EwODQy" target="_blank" rel="noopener noreferrer">Вступить в канал мастер-класса</a>';
+        '<strong>Готово! Вы зарегистрированы.</strong><p>Следующий шаг — вступите в Telegram-канал мастер-класса. Там будут напоминания, а ближе к эфиру — ссылка на Zoom.</p><a class="button channel-cta" href="https://t.me/+xR-I608Nv7EwODQy" target="_blank" rel="noopener noreferrer">Вступить в канал мастер-класса</a><p>Пока ждёте встречу: <a href="https://hype-and-hope.ru/ai-architect?source=/masterclass">посмотрите программу AI Architect</a> или <a href="https://hype-and-hope.ru/anketa?interest=diagnostic&amp;source=/masterclass">опишите свою задачу Яну</a>.</p>';
       trackGoal("registration_sent");
       status.scrollIntoView({ behavior: "smooth", block: "center" });
     };
