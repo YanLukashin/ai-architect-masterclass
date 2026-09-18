@@ -10,8 +10,14 @@ const checks = [
   ["index.html", "24 сентября"],
   ["index.html", "16:00–18:00 МСК"],
   ["index.html", 'id="application-form"'],
+  ["index.html", 'name="phone"'],
+  ["index.html", 'type="tel"'],
+  ["index.html", 'inputmode="tel"'],
+  ["index.html", 'autocomplete="tel"'],
   ["script.js", "GOOGLE_FORM_ACTION"],
   ["script.js", 'name: "entry.896684943"'],
+  ["script.js", 'phone: "entry.172638223"'],
+  ["script.js", "isPhoneNumber"],
   ["script.js", '"utm_source"'],
 ];
 

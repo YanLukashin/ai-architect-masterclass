@@ -12,7 +12,7 @@
     "https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/formResponse";
   const googleEntries = {
     name: "entry.896684943",
-    email: "entry.172638223",
+    phone: "entry.172638223",
     telegram: "entry.520978181",
     role: "entry.620721003",
     company: "entry.1432134673",
@@ -42,6 +42,7 @@
   const submitButton = form?.querySelector("[type='submit']");
   const mobileCta = document.querySelector(".mobile-cta");
   const registerSection = document.querySelector("#register");
+  const phoneInput = form?.elements.namedItem("phone");
 
   const syncTopbar = () => {
     topbar?.classList.toggle("scrolled", window.scrollY > 20);
@@ -105,6 +106,19 @@
   });
 
   const clean = (value) => String(value || "").trim();
+  const normalizePhone = (value) => clean(value).replace(/\s+/g, " ");
+  const isPhoneNumber = (value) => {
+    const normalized = normalizePhone(value);
+    return /^(?=(?:\D*\d){7,20}\D*$)[\d\s()+-]+$/u.test(normalized);
+  };
+  const validatePhoneInput = () => {
+    if (!(phoneInput instanceof HTMLInputElement)) return;
+    phoneInput.setCustomValidity(
+      phoneInput.value && !isPhoneNumber(phoneInput.value)
+        ? "Укажите телефон: от 7 до 20 цифр; можно использовать +, пробелы, скобки и дефисы."
+        : "",
+    );
+  };
   const yesNo = (value) => (value ? "Да" : "Нет");
 
   const campaignLine = (data) => {
@@ -125,6 +139,7 @@
   form?.addEventListener("change", trackFormStart);
   form?.addEventListener("input", (event) => {
     trackFormStart();
+    if (event.target === phoneInput) validatePhoneInput();
     if (event.target instanceof HTMLElement) event.target.removeAttribute("aria-invalid");
     status.className = "form-status";
     status.textContent = "";
@@ -138,6 +153,7 @@
 
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
+    validatePhoneInput();
 
     const invalid = [...form.elements].filter(
       (element) => element instanceof HTMLElement && "checkValidity" in element && !element.checkValidity(),
@@ -156,7 +172,7 @@
     const source = [clean(data.get("source_text")), campaignLine(data)].filter(Boolean).join("; ");
     const response = {
       [googleEntries.name]: clean(data.get("name")),
-      [googleEntries.email]: clean(data.get("email")),
+      [googleEntries.phone]: normalizePhone(data.get("phone")),
       [googleEntries.telegram]: clean(data.get("telegram")),
       [googleEntries.role]: clean(data.get("role")),
       [googleEntries.company]: clean(data.get("company")),
@@ -199,7 +215,7 @@
       if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
       status.className = "form-status is-error";
       status.innerHTML =
-        'Не удалось подтвердить отправку. Попробуйте ещё раз или <a href="https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/viewform" target="_blank" rel="noopener noreferrer">откройте Google Form</a>.';
+        'Не удалось подтвердить отправку. Попробуйте ещё раз или <a href="https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/viewform" target="_blank" rel="noopener noreferrer">откройте Google Form</a> и укажите телефон в поле Email.';
     };
 
     if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
