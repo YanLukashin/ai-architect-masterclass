@@ -1,0 +1,32 @@
+[
+  {
+    "device": "desktop",
+    "status": 200,
+    "forms": 0,
+    "oldCtas": 0,
+    "heading": "ИИ для бизнеса:что внедрять первым",
+    "archiveText": true,
+    "headerHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "heroHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "mobileHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "mobileVisible": false,
+    "diagnosticHref": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "overflow": false,
+    "pageErrors": []
+  },
+  {
+    "device": "mobile",
+    "status": 200,
+    "forms": 0,
+    "oldCtas": 0,
+    "heading": "ИИ для бизнеса:что внедрять первым",
+    "archiveText": true,
+    "headerHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "heroHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "mobileHref": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "mobileVisible": true,
+    "diagnosticHref": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=legacy&yclid=123456789012345",
+    "overflow": false,
+    "pageErrors": []
+  }
+]

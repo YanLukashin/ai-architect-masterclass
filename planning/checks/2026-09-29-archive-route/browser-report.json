@@ -1,0 +1,100 @@
+[
+  {
+    "label": "desktop",
+    "title": "ИИ для бизнеса — мастер-класс AI Architect",
+    "h1": "ИИ для бизнеса:что внедрять первым",
+    "formCount": 0,
+    "expiredCtaCount": 0,
+    "links": [
+      {
+        "text": "Смотреть запись",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить свою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить свою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "На странице прошедшего мастер-класса",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить мою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Посмотреть программу AI Architect ↗",
+        "href": "https://hype-and-hope.ru/ai-architect?source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      }
+    ],
+    "heroCtaVisible": true,
+    "mobileCtaVisible": false,
+    "horizontalOverflow": false,
+    "errors": []
+  },
+  {
+    "label": "mobile",
+    "title": "ИИ для бизнеса — мастер-класс AI Architect",
+    "h1": "ИИ для бизнеса:что внедрять первым",
+    "formCount": 0,
+    "expiredCtaCount": 0,
+    "links": [
+      {
+        "text": "Смотреть запись",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить свою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить свою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "На странице прошедшего мастер-класса",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Обсудить мою задачу ↗",
+        "href": "https://hype-and-hope.ru/anketa?interest=diagnostic&source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Посмотреть программу AI Architect ↗",
+        "href": "https://hype-and-hope.ru/ai-architect?source=%2Fmasterclass&utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      },
+      {
+        "text": "Смотреть запись и открыть Canvas",
+        "href": "https://hype-and-hope.ru/masterclass-2026-09-24?utm_source=telegram&utm_campaign=aa2&gclid=abc123"
+      }
+    ],
+    "heroCtaVisible": true,
+    "mobileCtaVisible": true,
+    "horizontalOverflow": false,
+    "errors": []
+  }
+]
