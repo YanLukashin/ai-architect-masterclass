@@ -9,17 +9,17 @@ const requiredFiles = ["index.html", "styles.css", "script.js"];
 const checks = [
   ["index.html", "24 сентября"],
   ["index.html", "16:00–18:00 МСК"],
-  ["index.html", 'id="application-form"'],
-  ["index.html", 'name="phone"'],
-  ["index.html", 'type="tel"'],
-  ["index.html", 'inputmode="tel"'],
-  ["index.html", 'autocomplete="tel"'],
-  ["script.js", "GOOGLE_FORM_ACTION"],
-  ["script.js", 'name: "entry.896684943"'],
-  ["script.js", 'phone: "entry.172638223"'],
-  ["script.js", "isPhoneNumber"],
+  ["index.html", "Мастер-класс «ИИ для бизнеса"],
+  ["index.html", "Смотреть запись и открыть Canvas"],
+  ["index.html", "https://hype-and-hope.ru/masterclass-2026-09-24"],
+  ["index.html", "interest=diagnostic&amp;source=/masterclass"],
   ["script.js", '"utm_source"'],
 ];
+
+const html = await readFile(join(projectDir, "index.html"), "utf8");
+if (/<form\b|#register\b|Зарегистрироваться|Регистрация открыта/i.test(html)) {
+  throw new Error("Archived page still contains an active registration route");
+}
 
 for (const file of requiredFiles) {
   const info = await stat(join(projectDir, file));

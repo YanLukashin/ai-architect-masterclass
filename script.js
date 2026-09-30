@@ -1,31 +1,4 @@
 (() => {
-  const METRIKA_COUNTER_ID = 112342018;
-  const trackGoal = (name) => {
-    try {
-      if (typeof window.ym === "function") window.ym(METRIKA_COUNTER_ID, "reachGoal", name);
-    } catch {
-      // Analytics must not interrupt registration or navigation.
-    }
-  };
-
-  const GOOGLE_FORM_ACTION =
-    "https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/formResponse";
-  const googleEntries = {
-    name: "entry.896684943",
-    phone: "entry.172638223",
-    telegram: "entry.520978181",
-    role: "entry.620721003",
-    company: "entry.1432134673",
-    process: "entry.178847577",
-    loss: "entry.1178609925",
-    authority: "entry.240061595",
-    aiUsage: "entry.1284261910",
-    liveCasePrimary: "entry.369213165",
-    liveCaseDuplicate: "entry.334142621",
-    diagnosis: "entry.1006025006",
-    source: "entry.515268763",
-    consent: "entry.626524812",
-  };
   const campaignKeys = [
     "utm_source",
     "utm_medium",
@@ -35,35 +8,46 @@
     "yclid",
     "gclid",
   ];
+  const sourceParams = new URLSearchParams(window.location.search);
+  const clickKeys = new Set(["yclid", "gclid"]);
+
+  document.querySelectorAll("a[data-campaign-link]").forEach((link) => {
+    const destination = new URL(link.href);
+    for (const key of campaignKeys) {
+      const value = sourceParams.has(key)
+        ? sourceParams.get(key)
+        : clickKeys.has(key) ? null : sourceParams.get(`amp;${key}`);
+      // Accept only known short tokens. A long number may be a phone in UTM data,
+      // while numeric click IDs are normal for yclid/gclid.
+      if (value && /^[a-zA-Z0-9._~-]{1,120}$/.test(value) && (clickKeys.has(key) || !/\d{7,}/.test(value))) {
+        destination.searchParams.set(key, value);
+      }
+    }
+    link.href = destination.href;
+  });
 
   const topbar = document.querySelector("[data-topbar]");
-  const form = document.querySelector("#application-form");
-  const status = document.querySelector("#form-status");
-  const submitButton = form?.querySelector("[type='submit']");
-  const mobileCta = document.querySelector(".mobile-cta");
-  const registerSection = document.querySelector("#register");
-  const phoneInput = form?.elements.namedItem("phone");
-
-  const syncTopbar = () => {
-    topbar?.classList.toggle("scrolled", window.scrollY > 20);
-  };
-
+  const syncTopbar = () => topbar?.classList.toggle("scrolled", window.scrollY > 20);
   syncTopbar();
   window.addEventListener("scroll", syncTopbar, { passive: true });
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.08, rootMargin: "0px 0px -30px" },
-  );
-
-  document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  const revealElements = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -30px" },
+    );
+    revealElements.forEach((element) => observer.observe(element));
+  } else {
+    revealElements.forEach((element) => element.classList.add("is-visible"));
+  }
 
   document.querySelectorAll("[data-youtube-id]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -80,156 +64,5 @@
       iframe.allowFullscreen = true;
       button.replaceWith(iframe);
     });
-  });
-
-  if (mobileCta && registerSection) {
-    const syncMobileCta = () => {
-      const bounds = registerSection.getBoundingClientRect();
-      const registrationIsVisible = bounds.top < window.innerHeight - 20 && bounds.bottom > 0;
-      mobileCta.classList.toggle("is-hidden", registrationIsVisible);
-    };
-
-    syncMobileCta();
-    window.addEventListener("scroll", syncMobileCta, { passive: true });
-    window.addEventListener("resize", syncMobileCta);
-  }
-
-  const query = new URLSearchParams(window.location.search);
-  campaignKeys.forEach((key) => {
-    const queryValue = query.get(key);
-    if (queryValue) sessionStorage.setItem(key, queryValue);
-
-    const input = form?.elements.namedItem(key);
-    if (input instanceof HTMLInputElement) {
-      input.value = queryValue || sessionStorage.getItem(key) || "";
-    }
-  });
-
-  const clean = (value) => String(value || "").trim();
-  const normalizePhone = (value) => clean(value).replace(/\s+/g, " ");
-  const isPhoneNumber = (value) => {
-    const normalized = normalizePhone(value);
-    return /^(?=(?:\D*\d){7,20}\D*$)[\d\s()+-]+$/u.test(normalized);
-  };
-  const validatePhoneInput = () => {
-    if (!(phoneInput instanceof HTMLInputElement)) return;
-    phoneInput.setCustomValidity(
-      phoneInput.value && !isPhoneNumber(phoneInput.value)
-        ? "Укажите телефон: от 7 до 20 цифр; можно использовать +, пробелы, скобки и дефисы."
-        : "",
-    );
-  };
-  const yesNo = (value) => (value ? "Да" : "Нет");
-
-  const campaignLine = (data) => {
-    const values = campaignKeys
-      .map((key) => [key, clean(data.get(key))])
-      .filter(([, value]) => value)
-      .map(([key, value]) => `${key}=${value}`);
-    return values.length ? values.join("; ") : "direct";
-  };
-
-  let formStarted = false;
-  const trackFormStart = () => {
-    if (formStarted) return;
-    formStarted = true;
-    trackGoal("form_start");
-  };
-
-  form?.addEventListener("change", trackFormStart);
-  form?.addEventListener("input", (event) => {
-    trackFormStart();
-    if (event.target === phoneInput) validatePhoneInput();
-    if (event.target instanceof HTMLElement) event.target.removeAttribute("aria-invalid");
-    status.className = "form-status";
-    status.textContent = "";
-  });
-
-  status?.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLElement && event.target.closest("a.channel-cta")) {
-      trackGoal("telegram_click");
-    }
-  });
-
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    validatePhoneInput();
-
-    const invalid = [...form.elements].filter(
-      (element) => element instanceof HTMLElement && "checkValidity" in element && !element.checkValidity(),
-    );
-
-    if (invalid.length) {
-      invalid.forEach((element) => element.setAttribute("aria-invalid", "true"));
-      invalid[0].focus();
-      status.className = "form-status is-error";
-      status.textContent = "Заполните поля, отмеченные звёздочкой.";
-      return;
-    }
-
-    trackFormStart();
-    const data = new FormData(form);
-    const source = [clean(data.get("source_text")), campaignLine(data)].filter(Boolean).join("; ");
-    const response = {
-      [googleEntries.name]: clean(data.get("name")),
-      [googleEntries.phone]: normalizePhone(data.get("phone")),
-      [googleEntries.telegram]: clean(data.get("telegram")),
-      [googleEntries.role]: clean(data.get("role")),
-      [googleEntries.company]: clean(data.get("company")),
-      [googleEntries.process]: clean(data.get("process")),
-      [googleEntries.loss]: clean(data.get("loss")),
-      [googleEntries.authority]: clean(data.get("authority")),
-      [googleEntries.aiUsage]: clean(data.get("ai_usage")),
-      [googleEntries.liveCasePrimary]: yesNo(data.get("live_case")),
-      [googleEntries.liveCaseDuplicate]: yesNo(data.get("live_case")),
-      [googleEntries.diagnosis]: yesNo(data.get("diagnosis")),
-      [googleEntries.source]: source,
-      [googleEntries.consent]: "Согласен",
-      fvv: "1",
-      pageHistory: "0",
-    };
-
-    let completed = false;
-    let submissionTimeout;
-    const controller = new AbortController();
-    const completeSubmission = () => {
-      if (completed) return;
-      completed = true;
-      window.clearTimeout(submissionTimeout);
-      form.reset();
-      campaignKeys.forEach((key) => {
-        const input = form.elements.namedItem(key);
-        if (input instanceof HTMLInputElement) input.value = sessionStorage.getItem(key) || "";
-      });
-      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
-      status.className = "form-status is-success";
-      status.innerHTML =
-        '<strong>Готово! Вы зарегистрированы.</strong><p>Следующий шаг — вступите в Telegram-канал мастер-класса. Там будут напоминания, а ближе к эфиру — ссылка на Zoom.</p><a class="button channel-cta" href="https://t.me/+xR-I608Nv7EwODQy" target="_blank" rel="noopener noreferrer">Вступить в канал мастер-класса</a><p>Пока ждёте встречу: <a href="https://hype-and-hope.ru/ai-architect?source=/masterclass">посмотрите программу AI Architect</a> или <a href="https://hype-and-hope.ru/anketa?interest=diagnostic&amp;source=/masterclass">опишите свою задачу Яну</a>.</p>';
-      trackGoal("registration_sent");
-      status.scrollIntoView({ behavior: "smooth", block: "center" });
-    };
-    const failSubmission = () => {
-      if (completed) return;
-      completed = true;
-      window.clearTimeout(submissionTimeout);
-      if (submitButton instanceof HTMLButtonElement) submitButton.disabled = false;
-      status.className = "form-status is-error";
-      status.innerHTML =
-        'Не удалось подтвердить отправку. Попробуйте ещё раз или <a href="https://docs.google.com/forms/d/e/1FAIpQLSev1ox1t_KXnsRxpOIrK9QdGg1a_bdmedF_h-hGGgwof39abw/viewform" target="_blank" rel="noopener noreferrer">откройте Google Form</a> и укажите телефон в поле Email.';
-    };
-
-    if (submitButton instanceof HTMLButtonElement) submitButton.disabled = true;
-    status.className = "form-status";
-    status.textContent = "Отправляем регистрацию…";
-    submissionTimeout = window.setTimeout(() => controller.abort(), 12000);
-
-    fetch(GOOGLE_FORM_ACTION, {
-      method: "POST",
-      mode: "no-cors",
-      body: new URLSearchParams(response),
-      signal: controller.signal,
-    })
-      .then(completeSubmission)
-      .catch(failSubmission);
   });
 })();

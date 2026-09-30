@@ -915,6 +915,36 @@ h3 {
   align-items: start;
 }
 
+.archive-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 70px;
+  align-items: center;
+}
+
+.archive-actions {
+  display: grid;
+  justify-items: start;
+  gap: 22px;
+  border: 1px solid var(--line-light);
+  background: #181815;
+  padding: 32px;
+  box-shadow: 15px 15px 0 rgba(243, 76, 8, 0.28);
+}
+
+.archive-actions p {
+  margin: 0;
+  color: var(--muted-light);
+}
+
+@media (max-width: 800px) {
+  .archive-layout { grid-template-columns: 1fr; gap: 32px; }
+  .archive-actions { padding: 24px; }
+  .archive-actions .button { width: 100%; text-align: center; }
+}
+
 .registration-copy {
   position: sticky;
   top: 100px;
